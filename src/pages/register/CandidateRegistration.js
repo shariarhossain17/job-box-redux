@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { FaChevronLeft } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const CandidateRegistration = () => {
   const [countries, setCountries] = useState([]);
   const { handleSubmit, register, control } = useForm();
   const term = useWatch({ control, name: "term" });
-  console.log(term);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const CandidateRegistration = () => {
   }, []);
 
   const onSubmit = (data) => {
-    console.log(data);
+ 
   };
 
   return (
