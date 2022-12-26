@@ -1,26 +1,34 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 import loginImage from "../assets/login.svg";
-import { loginUser } from "../features/auth/authSlice";
+import { googleLogin, loginUser } from "../features/auth/authSlice";
 const Login = () => {
   const { register, handleSubmit, reset } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {isLoading,email} = useSelector((state) => state.auth);
+  const { isLoading, email, isError, error } = useSelector(
+    (state) => state.auth
+  );
 
-
-  useEffect(() =>{
-    if(!isLoading && email) {
-      navigate('/')
+  useEffect(() => {
+    if (!isLoading && email) {
+      navigate("/");
     }
-  },[isLoading,email])
+  }, [isLoading, email]);
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(error);
+    }
+  }, [isError, error]);
 
   const onSubmit = (data) => {
     dispatch(loginUser({ email: data.email, password: data.password }));
-    reset()
+    reset();
   };
 
   return (
@@ -70,6 +78,7 @@ const Login = () => {
               </div>
               <div className="relative !mt-8">
                 <button
+                  onClick={() => dispatch(googleLogin())}
                   type="submit"
                   className="font-bold text-white py-3 rounded-full bg-primary w-full"
                 >
