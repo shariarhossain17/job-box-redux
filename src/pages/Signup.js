@@ -13,7 +13,7 @@ const Signup = () => {
   const [disabled, setDisabled] = useState(true);
   const dispatch = useDispatch();
 
-  const { isLoading, email, isError, error } = useSelector(
+  const { isLoading, user:{email}, isError, error } = useSelector(
     (state) => state.auth
   );
 
