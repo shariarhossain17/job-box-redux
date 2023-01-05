@@ -123,7 +123,7 @@ const authSlice = createSlice({
   },
   reducers: {
     logOut: (state) => {
-      state.user.email = "";
+      state.user = {email:"",role:""};
     },
     setUser: (state, { payload }) => {
       state.user.email = payload;

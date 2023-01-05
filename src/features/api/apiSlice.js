@@ -4,6 +4,7 @@ const apiSlice = createApi({
     reducerPath: "api",
     baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/" }),
     endpoints: (builder) => ({}),
+    tagTypes:["jobs"]
   });
 
 export default apiSlice;

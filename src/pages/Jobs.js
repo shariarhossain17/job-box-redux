@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import JobCard from "../components/reusable/JobCard";
 import { useGetJobQuery } from "../features/job/jobapi";
 
 const Jobs = () => {
@@ -7,18 +8,13 @@ const Jobs = () => {
   const { data, isLoading, isError } = useGetJobQuery();
   return (
     <div className="pt-14">
-      <h1>This is job page</h1>
-      <div>
-        {data?.data?.map((d) => {
-          return (
-            <>
-              <p>{d.position}</p>
-              <button onClick={() => navigate(`/job-details/${d._id}`)}>
-                details
-              </button>
-            </>
-          );
-        })}
+      <div className="bg-primary/10 p-5 rounded-2xl">
+        <h1 className="font-semibold text-xl">Find Jobs</h1>
+      </div>
+      <div className="grid grid-cols-2 gap-5 mt-5">
+       {
+        data?.data?.map((d) => <JobCard jobData={d}/>)
+       }
       </div>
     </div>
   );
