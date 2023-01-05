@@ -24,7 +24,7 @@ const AddJobs = () => {
     remove: reqRemove,
   } = useFieldArray({ control, name: "requirements" });
   const onSubmit = (data) => {
-    dispatch(postJob({ ...data, requirements: [], post: [] }));
+    dispatch(postJob({ ...data, queries: [], post: [] }));
   };
 
   useEffect(() => {

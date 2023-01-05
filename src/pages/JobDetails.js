@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { BsArrowReturnRight, BsArrowRightShort } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { useApplyJobMutation, useGetJobByIdQuery } from "../features/job/jobapi";
+import {
+  useApplyJobMutation,
+  useGetJobByIdQuery,
+  useQuestionMutation
+} from "../features/job/jobapi";
 
 const JobDetails = () => {
   const navigate = useNavigate();
-  const [applyJob] = useApplyJobMutation()
-  const dispatch = useDispatch()
+  const [applyJob] = useApplyJobMutation();
+  const [question] = useQuestionMutation();
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const [questions, setQuestion] = useState("");
   const { id } = useParams();
   const { data, isLoading, isError } = useGetJobByIdQuery(id);
   const {
@@ -26,7 +32,7 @@ const JobDetails = () => {
     overview,
     queries,
     _id,
-  } = data || {};
+  } = data?.data || {};
 
   const handleApply = () => {
     const data = {
@@ -35,10 +41,18 @@ const JobDetails = () => {
       jobId: id,
     };
 
-
-    dispatch(applyJob(data))
+    dispatch();
   };
 
+  const onSubmit = () => {
+    const data = {
+      userId: user._id,
+      email: user.email,
+      jobId: _id,
+      question: questions,
+    };
+    dispatch(question(data));
+  };
   return (
     <div className="pt-14 grid grid-cols-12 gap-5">
       <div className="col-span-9 mb-10">
@@ -125,17 +139,21 @@ const JobDetails = () => {
             </div>
 
             <div className="flex gap-3 my-5">
-              <input
-                placeholder="Ask a question..."
-                type="text"
-                className="w-full"
-              />
-              <button
-                className="shrink-0 h-14 w-14 bg-primary/10 border border-primary hover:bg-primary rounded-full transition-all  grid place-items-center text-primary hover:text-white"
-                type="button"
-              >
-                <BsArrowRightShort size={30} />
-              </button>
+              <form>
+                <input
+                  placeholder="Ask a question..."
+                  type="text"
+                  className="w-full"
+                  onChange={(e) => setQuestion(e.target.value)}
+                />
+                <button
+                  onClick={onSubmit}
+                  className="shrink-0 h-14 w-14 bg-primary/10 border border-primary hover:bg-primary rounded-full transition-all  grid place-items-center text-primary hover:text-white"
+                  type="button"
+                >
+                  <BsArrowRightShort size={30} />
+                </button>
+              </form>
             </div>
           </div>
         </div>
